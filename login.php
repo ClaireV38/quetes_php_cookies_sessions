@@ -1,3 +1,29 @@
+<?php
+
+function cleanInput(string $str): ?string
+{
+    if($str === "") return null;
+    $str = trim($str);
+    $str = stripslashes($str);
+    $str =  htmlspecialchars($str);
+    return $str;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-signin']) && !empty($_POST)) {
+    $userName = cleanInput($_POST['login_name']);
+    if(empty($userName)) {
+        echo "un nom d'utilisateur est requis";
+    }
+    else {
+        session_start();
+        $_SESSION['login_name'] = $userName;
+        header("Location: index.php");
+    }
+}
+
+?>
+
+
 <?php require 'inc/head.php'; ?>
 <div class="container" style="margin-top:40px">
     <div class="row">
@@ -7,7 +33,7 @@
                     <strong> Sign in to continue</strong>
                 </div>
                 <div class="panel-body">
-                    <form role="form" action="#" method="POST">
+                    <form role="form" action="/login.php" method="POST">
                         <fieldset>
                             <div class="row">
                                 <div class="center-block">
@@ -23,12 +49,13 @@
                                             <span class="input-group-addon">
                                               <i class="glyphicon glyphicon-user"></i>
                                             </span>
-                                            <input class="form-control" placeholder="Username" name="loginname"
+                                            <input class="form-control" placeholder="Username" name="login_name"
                                                    type="text" autofocus>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in">
+                                        <input name="btn-signin" type="submit" class="btn btn-lg btn-primary btn-block"
+                                           value="Sign in">
                                     </div>
                                 </div>
                             </div>

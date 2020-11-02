@@ -1,3 +1,4 @@
+
 <?php require 'inc/data/products.php'; ?>
 <?php require 'inc/head.php'; ?>
 <section class="cookies container-fluid">
@@ -9,7 +10,11 @@
                     <figcaption class="caption">
                         <h3><?= $cookie['name']; ?></h3>
                         <p><?= $cookie['description']; ?></p>
-                        <a href="?add_to_cart=<?= $id; ?>" class="btn btn-primary">
+                        <?php if (!isset($loginName)): ?>
+                        <a href="/login.php" class="btn btn-primary">
+                        <?php else: ?>
+                        <a href="/?add_to_cart=<?= $id; ?>" class="btn btn-primary">
+                        <?php endif; ?>
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add to cart
                         </a>
                     </figcaption>

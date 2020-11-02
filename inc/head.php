@@ -1,3 +1,20 @@
+<?php
+session_start();
+if(!empty($_SESSION['login_name'])) {
+    $loginName = $_SESSION['login_name'];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['log_out']) && !empty($_POST)) {
+        session_destroy();
+        header("Location: index.php");
+}
+
+if (!empty($_GET['add_to_cart'])) {
+    $_SESSION['id_cookies_added_to_cart'][] = $_GET['add_to_cart'];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,8 +54,19 @@
                     <li><a href="#">Chocolates chips</a></li>
                     <li><a href="#">Nuts</a></li>
                     <li><a href="#">Gluten full</a></li>
+                    <?php if (isset($loginName)): ?>
                     <li>
-                        <a href="/cart.php" class="btn btn-warning navbar-btn">
+                        <form method="post" action="/index.php">
+                            <input type="hidden" name="log_out" />
+                            <button type="submit" name="btn_log_out">Se déconnecter</button>
+                        </form>
+                    </li>
+                    <?php else : ?>
+                        <li><a href="/login.php">login</a></li>
+                    <?php endif; ?>
+                    <li>
+                        <a href=" <?php if (!isset($loginName)): ?> /login.php <?php else : ?>/cart.php <?php endif; ?>"
+                           class="btn btn-warning navbar-btn">
                             <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
                             Cart
                         </a>
@@ -48,6 +76,10 @@
         </div><!-- /.container-fluid -->
     </nav>
     <div class="container-fluid text-right">
+        <?php if (isset($loginName)): ?>
+        <strong>Hello <?= $loginName ?></strong>
+        <?php else : ?>
         <strong>Hello Wilder !</strong>
+        <?php endif; ?>
     </div>
 </header>
