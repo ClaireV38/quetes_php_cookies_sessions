@@ -1,5 +1,7 @@
 <?php
 
+require 'inc/head.php';
+
 function cleanInput(string $str): ?string
 {
     if($str === "") return null;
@@ -9,13 +11,16 @@ function cleanInput(string $str): ?string
     return $str;
 }
 
+if (isset($loginName)) {
+    header("Location: index.php");
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-signin']) && !empty($_POST)) {
     $userName = cleanInput($_POST['login_name']);
     if(empty($userName)) {
         echo "un nom d'utilisateur est requis";
     }
     else {
-        session_start();
         $_SESSION['login_name'] = $userName;
         header("Location: index.php");
     }
@@ -24,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['btn-signin']) && !emp
 ?>
 
 
-<?php require 'inc/head.php'; ?>
+
 <div class="container" style="margin-top:40px">
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4">

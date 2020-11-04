@@ -58,7 +58,8 @@ if (!empty($_GET['add_to_cart'])) {
                     <li>
                         <form method="post" action="/index.php">
                             <input type="hidden" name="log_out" />
-                            <button type="submit" name="btn_log_out">Se déconnecter</button>
+                            <button class="btn btn-success navbar-btn"
+                            type="submit" name="btn_log_out">Se déconnecter</button>
                         </form>
                     </li>
                     <?php else : ?>
